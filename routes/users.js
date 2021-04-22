@@ -2,6 +2,7 @@ var express = require('express');
 var fs = require('fs');
 var router = express.Router();
 const filePath = "routes/test.json";
+const fileCompany = "routes/company.json"
 const jsonParser = express.json();
 
 
@@ -35,6 +36,18 @@ const content = fs.readFileSync(filePath,"utf8");
 res.send(content);
 
 });
+
+
+/* GET COMPANY listing. */
+router.get('/companyGet', function(req, res, next) {
+	
+  console.log('vhodGET')
+  const content = fs.readFileSync(fileCompany,"utf8");
+  console.log(content)
+  
+  res.send(content);
+  
+  });
 
 /* DELETE ID COMPANY users listing. */
 router.delete('/deleteCompany:id', function(req, res, next) {
@@ -76,12 +89,12 @@ router.put('/putCompany:id', function(req, res, next) {
   })
 
   fs.writeFileSync(filePath, JSON.stringify(company));
-  res.send(JSON.stringify(company));
+  res.send(JSON.stringify(data));
   
   });
 
-
-router.post('/', jsonParser, function(req, res, next) {
+/* POST ID COMPANY users listing. */
+router.post('/create', jsonParser, function(req, res, next) {
   console.log('vhodPOST')
   const content = fs.readFileSync(filePath,"utf8");
 
@@ -100,6 +113,19 @@ contentData.push(data);
  fs.writeFileSync(filePath, JSON.stringify(contentData));
 
  res.send(contentData);
+})
+
+
+/* POST ID COMPANY users listing. */
+router.post('/company', jsonParser, function(req, res, next) {
+  console.log('vhodcompanyId')
+  
+
+ let data = req.body;
+ console.log('vhodcompanyId2')
+ fs.writeFileSync(fileCompany, JSON.stringify(data));
+
+ res.send(data);
 })
 
 module.exports = router;
